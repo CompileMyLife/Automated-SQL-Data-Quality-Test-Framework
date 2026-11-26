@@ -1,0 +1,12 @@
+# Generated
+*.db
+
+# Python
+venv/
+__pycache__/
+
+# Environment
+.env
+
+# macOS
+.DS_Store
