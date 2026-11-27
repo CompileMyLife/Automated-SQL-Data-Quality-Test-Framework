@@ -53,7 +53,7 @@ def populateDB(dbPath: Path, conn: sqlite3.Connection):
 
     finally:
         conn.close()
-    
+
 
 def loadData():
     
