@@ -5,6 +5,10 @@ import sqlite3
 from pathlib import Path
 from database import getConnection
 
+ROOT = Path(__file__).resolve().parents[1]
+DATABASE_DIR = ROOT / "database"
+DATABASE_PATH = DATABASE_DIR / "olist.db"
+
 DATASETS = {
     "olist_customers_dataset.csv"           : 'customers', 
     "olist_geolocation_dataset.csv"         : 'geolocation', 
@@ -55,6 +59,8 @@ def loadData():
     
     db_path = Path(kagglehub.dataset_download("olistbr/brazilian-ecommerce"))
 
-    conn = getConnection("olist.db")
+    DATABASE_DIR.mkdir(exist_ok=True)
+
+    conn = getConnection(DATABASE_PATH)
 
     populateDB(db_path, conn)
