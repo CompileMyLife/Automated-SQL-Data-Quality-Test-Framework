@@ -86,6 +86,24 @@ def test_table_exists(cursor, table_name):
     assert result is not None, (f"Missing Table: {table_name}")
 
 
-# TODO complete this wrt to table_name for the columns
-@pytest.mark.parametrize("table_name", EXPECTED_TABLES.keys(), "columns",
-        EXPECTED_TABLES.)
+@pytest.mark.parametrize("table_name", "columns", EXPECTED_TABLES.items())
+def test_table_columns(cursor, table_name, columns):
+    cursor.execute('''
+        PRAGMA table_info(?)
+    ''', (table_name,))
+
+    result = cursor.fetchall()
+
+    actual_cols = {column[1] for column in result}
+    expected_cols = set(columns)
+
+    missing_cols = expected_cols - actual_cols
+    unexpected_cols = actual_cols - expected_cols
+
+    assert not missing_cols, (
+            f"Schema missing columns in table: {table_name}, columns: {missing_cols}"
+        )
+
+    assert not unexpected_cols, (
+            f"Schema has unexpected columns in table: {table_name}, columns: {unexpected_cols}"
+        )
